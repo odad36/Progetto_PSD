@@ -1,5 +1,6 @@
 #include "attivita.h"
 #include <stdio.h>
+#include <stdlib.h>
 struct attivita {
 char nome[50];
 char descrizione[100];
