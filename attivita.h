@@ -5,3 +5,5 @@ void modifica_scadenza(attivita);
 void stampa_stato_completamento(attivita);
 int accedi_priorita(attivita);
 float calcola_progresso(attivita);
+void stampa_progresso(attivita);
+void modifica_completata(attivita);

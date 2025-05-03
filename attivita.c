@@ -45,10 +45,12 @@ int data_valida(char* data) {
         return 0;
     if ((mese == 4 || mese == 6 || mese == 9 || mese == 11) && giorno > 30) //verifica dei giorni per mesi da 30 giorni
         return 0;
-    if (mese == 2 && giorno > 29) //verifica per febbraio
-        return 0;
-    else
-        return 1;
+    if (mese == 2) { //verifica specifica per febbraio
+        int bisestile = (anno % 4 == 0 && anno % 100 != 0) || (anno % 400 == 0); //verifica per anno bisestile
+        if ((bisestile && giorno > 29) || (!bisestile && giorno > 28)) //verifica dei giorni per anni bisestili o meno
+            return 0;
+        }
+    return 1;
     }
 
 void modifica_scadenza(attivita att) {
@@ -61,7 +63,7 @@ void modifica_scadenza(attivita att) {
             return;
         }
         else {
-            printf("Errore! Assicurarsi di aver scritto la data con il formato: giorno/mese/anno (01/01/2001)\n");
+            printf("Errore! Assicurarsi di aver scritto la data con il formato: giorno/mese/anno (01/01/2001), e di non aver inserito una data passata o inesistente.\n");
         }
     }
 }
@@ -111,4 +113,12 @@ void stampa_attivita(attivita att) {
     att->tempo_stimato,
     att->tempo_effettivo); //nota: il campo "completata" non è presente, per sapere se un'attività è completata o meno, si utilizza la funzione stampa_stato_completamento
 return;
+}
+
+void modifica_completata(attivita att) {
+    if(att->completata == 0)
+        att->completata = 1;
+    else
+        att->completata = 0;
+    return;
 }
