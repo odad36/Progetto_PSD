@@ -84,3 +84,7 @@ int conta_attivita(lista_attivita lst) {
     }
     return contatore;
 }
+
+void genera_report_settimanale(lista_attivita lst) {
+    
+}

@@ -134,3 +134,18 @@ void modifica_completata(attivita att) {
         att->completata = 0;
     return;
 }
+
+void modifica_tempo_effettivo(attivita att) {
+    if(att == NULL) {
+        printf("Errore, l'attività è vuota\n");
+        return;
+    }
+    int tempo_aggiuntivo;
+    printf("quante ore hai studiato?\n");
+    if (scanf("%d", &tempo_aggiuntivo) != 1) {  //controllo per verificare che la scanf vada a buon fine
+        printf("Input non valido.\n");
+    return;
+    }
+    att->tempo_effettivo += tempo_aggiuntivo;
+    return;
+}
