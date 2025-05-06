@@ -10,5 +10,5 @@ int accedi_priorita(attivita);
 float calcola_progresso(attivita);
 void stampa_progresso(attivita);
 void modifica_completata(attivita);
-
+char* accedi_nome(attivita);
 #endif

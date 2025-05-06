@@ -77,7 +77,19 @@ return;
 }
 
 int accedi_priorita(attivita att) {
+    if (att == NULL){
+        printf("Errore, l'attività è vuota\n");
+        return -1;
+    }
     return att->priorita;
+}
+
+char* accedi_nome(attivita att) {
+    if (att == NULL){
+        printf("Errore, l'attività è vuota\n");
+        return "ERRORE";
+    }
+    return att->nome;
 }
 
 float calcola_progresso(attivita att) {

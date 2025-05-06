@@ -6,7 +6,7 @@ typedef struct nodo* lista_attivita;  //typedef "opaco" per rispettare l'informa
 lista_attivita crea_lista(void);
 void stampa_lista(lista_attivita);
 lista_attivita inserisci_attivita(lista_attivita, attivita);
-void rimuovi_attivita(lista_attivita, char*);
+lista_attivita rimuovi_attivita(lista_attivita, char*);
 attivita cerca_attivita(lista_attivita, char*);
 int conta_attivita(lista_attivita);
 #endif
