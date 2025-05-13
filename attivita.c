@@ -16,12 +16,13 @@ int tempo_effettivo; //rappresenta il tempo effettivo (in ore) di studio fatto d
 int completata; //1 = sì, 0 = no
 };
 
-attivita crea_attivita(char* nome, char* descrizione, char* corso_appartenenza, char* data_scadenza, int priorita, int tempo_stimato) {
+attivita crea_attivita(char* nome, char* descrizione, char* corso_appartenenza, char* data_scadenza, char* data_oggi, int priorita, int tempo_stimato) {
     attivita att = malloc(sizeof(struct attivita));
     strcpy(att->nome, nome);
     strcpy(att->descrizione, descrizione);
     strcpy(att->corso_appartenenza, corso_appartenenza);
     strcpy(att->data_scadenza, data_scadenza);
+    strcpy(att->data_ultima_modifica, data_oggi);
     att->priorita = priorita;
     att->tempo_stimato = tempo_stimato;
     att->tempo_effettivo = 0;
