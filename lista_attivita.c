@@ -85,6 +85,53 @@ int conta_attivita(lista_attivita lst) {
     return contatore;
 }
 
-void genera_report_settimanale(lista_attivita lst) {
-    
-}
+void genera_report_settimanale(lista_attivita lst, char* data_oggi) {
+    if(lst == NULL) {
+        printf("la lista è vuota\n");
+        return;
+    }
+    char data_settimana[11];
+    sottrai_7_giorni(data_oggi, data_settimana);
+    printf("------ Ecco il report dell'ultima settimana ------\n");
+    printf("Periodo di riferimento: %s - %s\n", data_settimana, data_oggi);
+
+    lista_attivita attuale;
+
+     // 1. Attività SCADUTE negli ultimi 7 giorni
+     printf("\n-- ATTIVITÀ SCADUTE NEGLI ULTIMI 7 GIORNI --\n");
+     attuale = lst;
+     while(attuale != NULL) {
+         attivita a = attuale->dato;
+         if (accedi_completata(a) == 0 && confronta_date(accedi_data_scadenza(a), data_settimana) >= 0 && 
+         confronta_date(accedi_data_scadenza(a), data_oggi) <= 0) {
+             printf("- %s (scadenza: %s)\n", accedi_nome(a), accedi_data_scadenza(a));
+         }
+         attuale = attuale->next;
+     }
+ 
+     // 2. Attività MODIFICATE negli ultimi 7 giorni
+     printf("\n-- ATTIVITÀ MODIFICATE NEGLI ULTIMI 7 GIORNI --\n");
+     attuale = lst;
+     while(attuale != NULL) {
+         attivita a = attuale->dato;
+         if (confronta_date(accedi_data_ultima_modifica(a), data_settimana) >= 0 && 
+         confronta_date(accedi_data_ultima_modifica(a), data_oggi) <= 0) {
+             printf("- %s (modificata il: %s) - Progresso: %.2f%%\n", accedi_nome(a), accedi_data_ultima_modifica(a), calcola_progresso(a));
+         }
+         attuale = attuale->next;
+     }
+ 
+     // 3. Attività COMPLETATE negli ultimi 7 giorni
+     printf("\n-- ATTIVITÀ COMPLETATE NEGLI ULTIMI 7 GIORNI --\n");
+     attuale = lst;
+     while(attuale != NULL) {
+         attivita a = attuale->dato;
+         if (accedi_completata(a) == 1 && confronta_date(accedi_data_ultima_modifica(a), data_settimana) >= 0 && 
+         confronta_date(accedi_data_ultima_modifica(a), data_oggi) <= 0) {
+             printf("- %s (completata il: %s)\n", accedi_nome(a), accedi_data_ultima_modifica(a));
+         }
+         attuale = attuale->next;
+     }
+ 
+     printf("------ FINE REPORT ------\n");
+ }
