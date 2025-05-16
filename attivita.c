@@ -5,9 +5,9 @@
 #include <ctype.h>
 
 struct attivita {
-char nome[50];
+char nome[100];
 char descrizione[100];
-char corso_appartenenza[50]; 
+char corso_appartenenza[100]; 
 char data_scadenza [11]; //11 caratteri, perchè una stringa "data_scadenza" sarà composta da 10 caratteri + \0
 char data_ultima_modifica[11]; //valore aggiornato con "data_oggi", ogni volta che "tempo_effettivo" viene incrementato.
 int priorita;
@@ -54,6 +54,30 @@ int data_valida(char* data) {
         }
     return 1;
     }
+
+int stringa_valida(char* str) {
+    if (str == NULL) {
+        return 0;
+    }
+
+    int lunghezza = strlen(str);
+    if (lunghezza == 0 || lunghezza >= 100) {
+        return 0;
+    }
+
+    int solo_spazi = 1;
+    for (int i = 0; i < lunghezza; i++) {
+        if (str[i] != ' ') {
+            solo_spazi = 0;
+            break;
+        }
+    }
+    if (solo_spazi) {
+        return 0;
+    }
+
+    return 1;
+}
 
 void modifica_scadenza(attivita att) {
     char nuova_scadenza[11];

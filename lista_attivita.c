@@ -71,7 +71,6 @@ attivita cerca_attivita(lista_attivita lst, char* nome) {
             return attuale->dato;
         attuale = attuale->next; //passiamo alla prossima attività
     }
-    printf("nessuna attività con questo nome trovata");
         return NULL;
 }
 
