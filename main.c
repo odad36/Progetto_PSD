@@ -17,23 +17,38 @@ int main() {
     lista_attivita lst = crea_lista();
     int scelta;
 
-    do {
-        printf("\n----- MENU PRINCIPALE -----\n");
-        printf("1. Aggiungi un'attività di studio\n");
-        printf("2. Rimuovi un'attività di studio\n");
-        printf("3. Visualizza attività di studio\n");
-        printf("4. Modifica il tempo di studio effettivo di un'attività\n");
-        printf("5. Modifica la data di scadenza di un'attività\n");
-        printf("6. Segna un'attività come completata\n");
-        printf("7. Genera un report settimanale\n");
-        printf("0. Esci\n");
-        printf("Digita un numero da 0 a 7 per scegliere un opzione del menu: ");
-        scanf("%d", &scelta);
-        while(scelta < 0 || scelta > 7) {
-            printf("opzione non esistente, riprova\n");
-            scanf("%d", &scelta);
+ do {
+    printf("\n----- MENU PRINCIPALE -----\n");
+    printf("1. Aggiungi un'attività di studio\n");
+    printf("2. Rimuovi un'attività di studio\n");
+    printf("3. Visualizza attività di studio\n");
+    printf("4. Modifica il tempo di studio effettivo di un'attività\n");
+    printf("5. Modifica la data di scadenza di un'attività\n");
+    printf("6. Segna un'attività come completata\n");
+    printf("7. Genera un report settimanale\n");
+    printf("0. Esci\n");
+    printf("Digita un numero da 0 a 7 per scegliere un'opzione: ");
+
+    int input_valido = scanf("%d", &scelta);
+    if (input_valido != 1) {
+        printf("Input non valido. Riprova.\n");
+        while (getchar() != '\n'); // svuota buffer
+        continue;
+    }
+
+    while (scelta < 0 || scelta > 7) {
+        printf("Opzione non esistente, riprova:\n");
+        input_valido = scanf("%d", &scelta);
+        if (input_valido != 1) {
+            printf("Input non valido, ritorno al menù.\n");
+            while (getchar() != '\n');
+            scelta = -1; // forza uscita dal ciclo per ristampare il menù
+            break;
         }
-    }  while (scelta != 0);
+        while (getchar() != '\n');
+    }
+
+    while (getchar() != '\n');
 
         switch(scelta) {
 
@@ -46,7 +61,7 @@ int main() {
                 fgets(nome, 100, stdin);
                 nome[strcspn(nome, "\n")] = '\0';
                 while (!stringa_valida(nome) || cerca_attivita(lst, nome) != NULL) {
-                    printf("Nome non valido o già utilizzato, riprova");
+                    printf("Nome non valido o già utilizzato, riprova\n");
                     fgets(nome, 100, stdin);
                     nome[strcspn(nome, "\n")] = '\0';
                 }
@@ -115,21 +130,34 @@ int main() {
             
             
             case 3: {
-            int scelta_3;
-            do {
-                printf("\n----- OPZIONI DI VISUALIZZAZIONE -----\n");
-                printf("1. Visualizza un'attività di studio\n");
-                printf("2. Visualizza tutte le attività di studio\n");
-                printf("0. Esci\n");
-                scanf("%d", &scelta_3);
-                while(scelta_3 < 0 || scelta_3 > 2) {
-                    printf("opzione non esistente, riprova\n");
-                    scanf("%d", &scelta);
-                }
-            } while (scelta_3 != 0);
-            
-            switch (scelta_3) {
-                
+                int scelta_3;
+                do {
+                    printf("\n----- OPZIONI DI VISUALIZZAZIONE -----\n");
+                    printf("1. Visualizza un'attività di studio\n");
+                    printf("2. Visualizza tutte le attività di studio\n");
+                    printf("0. Esci\n");
+ 
+                    int input_valido = scanf("%d", &scelta_3);
+                    if (input_valido != 1) {
+                    printf("Input non valido. Riprova.\n");
+                    while (getchar() != '\n');  // svuota tutto
+                    continue;
+                    }
+
+                    while (scelta_3 < 0 || scelta_3 > 2) {
+                        printf("Opzione non esistente. Riprova:\n");
+                        input_valido = scanf("%d", &scelta_3);
+                        if (input_valido != 1) {
+                            printf("Input non valido. Ritorno al sottomenu.\n");
+                            while (getchar() != '\n');
+                            scelta_3 = -1;  // forza il ciclo a ripetersi
+                           break;
+                        }
+                        while (getchar() != '\n');
+                    
+                    } while (getchar() != '\n');  // pulizia finale
+
+                switch (scelta_3) {
             case 1: {
                 char nome [100];
                 printf("inserisci il nome dell'attività da visualizzare\n");
@@ -160,13 +188,14 @@ int main() {
             }
             default: {
                 printf("Scelta non valida. Riprova.\n");
-            }
-
-            }
-                
                 break;
+            }
+        }
+     } while (scelta_3!= 0);
+            break;
+    }
 
-            case 4:
+            case 4: {
                 char nome[100];
                 attivita att;
                 printf("inserisci il nome dell'attività di cui vuoi modificare il tempo effettivo di studio\n");
@@ -179,8 +208,8 @@ int main() {
                 }
                 modifica_tempo_effettivo(att, data_oggi);
                 break;
-
-            case 5:
+            }
+            case 5: {
                 char nome[100];
                 attivita att;
                 printf("inserisci il nome dell'attività di cui vuoi modificare la scadenza\n");
@@ -193,7 +222,8 @@ int main() {
                 }
                 modifica_scadenza(att);
                 break;
-            case 6:
+            }
+            case 6: {
                 char nome[100];
                 attivita att;
                 printf("inserisci il nome dell'attività di cui vuoi aggiornare il completamento\n");
@@ -207,17 +237,22 @@ int main() {
                 modifica_completata(att);
                 stampa_stato_completamento(att);
                 break;
-            case 7:
+            }
+            case 7: {
                 genera_report_settimanale(lst, data_oggi);
                 break;
-            case 0:
+            }    
+            case 0: {
                 printf("Uscita dal programma.\n");
                 break;
-            default:
+            }
+            default: {
                 printf("Scelta non valida. Riprova.\n");
+                break;
+            }
         }
-
     } while (scelta != 0);
-
+        
+    
     return 0;
 }
