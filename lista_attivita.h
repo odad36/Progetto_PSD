@@ -10,4 +10,5 @@ lista_attivita rimuovi_attivita(lista_attivita, char*);
 attivita cerca_attivita(lista_attivita, char*);
 int conta_attivita(lista_attivita);
 void genera_report_settimanale(lista_attivita, char*);
+void distruggi_lista(lista_attivita);
 #endif

@@ -22,6 +22,7 @@ void stampa_lista(lista_attivita lst) {
         stampa_attivita(attuale->dato);  
         stampa_progresso(attuale->dato);
         stampa_stato_completamento(attuale->dato);
+        stampa_priorita(attuale->dato);
         printf("----------------------------------\n");  //printf per spaziare le varie attività
         attuale = attuale->next;  //passiamo alla prossima attività
     }
@@ -134,3 +135,13 @@ void genera_report_settimanale(lista_attivita lst, char* data_oggi) {
  
      printf("------ FINE REPORT ------\n");
  }
+
+void distruggi_lista(lista_attivita lst) {
+    lista_attivita corrente = lst;
+    while (corrente != NULL) {
+        lista_attivita temp = corrente;  //salva il nodo corrente
+        corrente = corrente->next;  //passa al nodo successivo
+        free(temp->dato);  // libera l'attività contenuta
+        free(temp);        // libera il nodo stesso
+    }
+}

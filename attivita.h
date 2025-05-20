@@ -6,6 +6,7 @@ attivita crea_attivita(char*, char*, char*, char*, char*, int, int);
 int data_valida(char*);
 int stringa_valida(char*);
 void stampa_attivita(attivita);
+void stampa_priorita(attivita att);
 void modifica_scadenza(attivita);
 void stampa_stato_completamento(attivita);
 float calcola_progresso(attivita);

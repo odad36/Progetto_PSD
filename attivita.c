@@ -4,17 +4,36 @@
 #include <string.h>
 #include <ctype.h>
 
+/*
+definizione dettagliata della struttura attivita
+*/
 struct attivita {
 char nome[100];
 char descrizione[100];
 char corso_appartenenza[100]; 
-char data_scadenza [11]; //11 caratteri, perchè una stringa "data_scadenza" sarà composta da 10 caratteri + \0
-char data_ultima_modifica[11]; //valore aggiornato con "data_oggi", ogni volta che "tempo_effettivo" viene incrementato.
-int priorita;
-int tempo_stimato; //rappresenta il tempo stimato (in ore) per il completamento dell'attività, è un valore scelto dall'utente
-int tempo_effettivo; //rappresenta il tempo effettivo (in ore) di studio fatto dall'utente, è un valore che viene manualmente aggiornato dall'utente
-int completata; //1 = sì, 0 = no
+char data_scadenza [11];  //11 caratteri, perchè una stringa "data_scadenza" sarà composta da 10 caratteri + \0
+char data_ultima_modifica[11];  //questo valore aggiornato con "data_oggi" (nel main), ogni volta che "tempo_effettivo" viene incrementato.
+int priorita;  // valori: 1 = alta, 2 = media, 3 = bassa
+int tempo_stimato;  //rappresenta il tempo stimato (in ore) per il completamento dell'attività, è un valore scelto dall'utente
+int tempo_effettivo;  //rappresenta il tempo effettivo (in ore) di studio fatto dall'utente, è un valore che viene manualmente aggiornato dall'utente
+int completata; //valori: 1 = sì, 0 = no
 };
+
+/*
+
+• Funzione: crea_attivita
+
+* parametri:
+nome, descrizione, corso_appartenenza, data_scadenza, data_ultima_modifica, priorita, tempo_stimato
+
+* precondizioni:
+devono essere inseriti dei valori validi per ogni membro della struttura attivita.
+
+* postcondizioni: 
+la funzione restituisce una struttura attivita con all’interno i dati inseriti dall’utente, 
+inoltre i valori: “tempo effettivo” e “completata” sono inizializzati a 0, e la stringa “data_ultima_modifica” sarà la copia di “data_oggi”.
+
+*/
 
 attivita crea_attivita(char* nome, char* descrizione, char* corso_appartenenza, char* data_scadenza, char* data_oggi, int priorita, int tempo_stimato) {
     attivita att = malloc(sizeof(struct attivita));
@@ -29,6 +48,22 @@ attivita crea_attivita(char* nome, char* descrizione, char* corso_appartenenza, 
     att->completata = 0;
     return att;
 }
+
+/*
+
+• Funzione: data_valida
+- verifica se la stringa "data" è una data scritta nel formato: gg/mm/aaaa
+
+* parametri:
+data
+
+*precondizioni: la funzione deve ricevere una stringa
+
+*postcondizioni: la funzione restituisce 0 se la data è in un formato non valido, oppure se la data indicata è irregolare, 1 altrimenti.
+
+
+*/
+
 
 int data_valida(char* data) {
     int giorno;
@@ -55,6 +90,20 @@ int data_valida(char* data) {
     return 1;
     }
 
+/*
+
+• Funzione: stringa_valida
+- verifica che la stringa "str" non sia vuota, o composta da soli spazi, e che sia < 100 caratteri
+
+* parametri:
+str
+
+* precondizioni: la funzione deve ricevere una stringa
+
+* postcondizioni: la funzione restituisce 0 se la stringa è vuota, troppo lunga, oppure composta da soli spazi, 1 altrimenti.
+
+*/
+
 int stringa_valida(char* str) {
     if (str == NULL) {
         return 0;
@@ -79,11 +128,28 @@ int stringa_valida(char* str) {
     return 1;
 }
 
+/*
+
+• Funzione: modifica_scadenza
+- modifica il membro: "data_scadenza" dell'attività passata alla funzione
+
+* parametri:
+att : ossia l'attività di cui si vuole modificare la scadenza
+
+* precondizioni: deve essere inserita un’attività esistente
+
+* postcondizioni: nessuna
+
+* side effect: la scadenza dell’attività passata come argomento viene modificata dall’utente (che aggiungerà una nuova data).
+
+*/
+
 void modifica_scadenza(attivita att) {
     char nuova_scadenza[11];
     while(1) {
         printf("inserire la nuova data di scadenza, rispettando il formato: giorno/mese/anno\n");
-        scanf("%s", nuova_scadenza);
+        scanf("%10s", nuova_scadenza);
+        while (getchar() != '\n'); 
         if (data_valida(nuova_scadenza) == 1) {
             strcpy(att->data_scadenza, nuova_scadenza);
             return;
@@ -94,6 +160,21 @@ void modifica_scadenza(attivita att) {
     }
 }
 
+/*
+
+• Funzione: stampa_stato_completamento
+
+* parametri:
+att
+
+* precondizioni: deve essere inserita un’attività esistente
+
+* postcondizioni: nessuna
+
+* side effect: viene stampato un messaggio in cui è scritto se l’attività è completata o meno (a seconda del valore del membro “completata”)
+
+*/
+
 void stampa_stato_completamento(attivita att) {
     if(att->completata == 0)
         printf("l'attività non è stata ancora completata\n");
@@ -101,6 +182,20 @@ void stampa_stato_completamento(attivita att) {
         printf("l'attività è stata completata\n");
 return;
 }
+
+/*
+
+• Funzione: calcola_progresso
+- la funzione calcola il progresso dell'attività basandosi sul rapporto tra ore di studio effettive, e le ore di studio stimate
+
+* parametri:
+att
+
+* precondizioni: deve essere inserita un’attività esistente
+
+* postcondizioni: la funzione calcola il progresso dell’attività passata come argomento, e restituisce un valore in % del lavoro completato 
+
+*/
 
 float calcola_progresso(attivita att) {
     float progresso;
@@ -113,10 +208,42 @@ float calcola_progresso(attivita att) {
     return progresso;
 }
 
+/*
+
+• Funzione: stampa_progresso
+
+* parametri:
+att
+
+* precondizioni: deve essere inserita un’attività esistente
+
+* postcondizioni: nessuna
+
+* side effect: la funzione calcola (tramite calcola_progresso) e stampa il valore del progresso
+
+*/
+
 void stampa_progresso(attivita att) {
     printf("il progresso dell'attività è pari al %.2f percento\n", calcola_progresso(att));
     return;
 }
+
+/*
+
+• Funzione: stampa_attivita
+- la funzione stampa tutti i membri dell'attivita tranne: priorita e completamento
+(questo perchè questi due sono valori numerici, che vanno stampati con delle apposite funzioni)
+
+* parametri:
+att
+
+* precondizioni: deve essere inserita un’attività esistente
+
+* postcondizioni: nessuna
+
+* side effect: i membri dell’attività passata come argomento (tranne priorita e completamento) vengono stampati
+
+*/
 
 void stampa_attivita(attivita att) { 
     printf("ecco le specifiche della tua attività\n"
@@ -125,7 +252,6 @@ void stampa_attivita(attivita att) {
     "corso di appartenenza:%s;\n" 
     "data di scadenza:%s;\n" 
     "data ultima modifica:%s;\n"
-    "priorità:%d;\n" 
     "tempo stimato:%d;\n" 
     "tempo effettivo:%d;\n", 
     att->nome,
@@ -133,10 +259,42 @@ void stampa_attivita(attivita att) {
     att->corso_appartenenza,
     att->data_scadenza,
     att->data_ultima_modifica,
-    att->priorita,
     att->tempo_stimato,
-    att->tempo_effettivo); //nota: il campo "completata" non è presente, per sapere se un'attività è completata o meno, si utilizza la funzione stampa_stato_completamento
+    att->tempo_effettivo);
 return;
+}
+
+/*
+
+• Funzione: stampa_priorita
+- la funzione stampa tutti i membri 
+
+* parametri:
+att
+
+* precondizioni: deve essere inserita un’attività esistente
+
+* postcondizioni: nessuna
+
+* side effect: i membri dell’attività passata come argomento vengono stampati
+
+*/
+
+void stampa_priorita(attivita att) {
+    if (att == NULL) {
+        printf("Errore: attività non valida\n");
+        return;
+    }
+
+    printf("priorità: ");
+
+    if (att->priorita == 1) {
+        printf("alta\n");
+    } else if (att->priorita == 2) {
+        printf("media\n");
+    } else if (att->priorita == 3) {
+        printf("bassa\n");
+    }
 }
 
 void modifica_completata(attivita att) {
@@ -153,11 +311,17 @@ void modifica_tempo_effettivo(attivita att, char* data_oggi) {
         return;
     }
     int tempo_aggiuntivo;
-    printf("quante ore hai studiato?\n");
-    if (scanf("%d", &tempo_aggiuntivo) != 1) {  //controllo per verificare che la scanf vada a buon fine
-        printf("Input non valido.\n");
-    return;
+    int input_valido = 0;
+    do {
+        printf("Quante ore hai studiato? Inserisci un numero intero positivo:\n");
+        input_valido = scanf("%d", &tempo_aggiuntivo);
+        while (getchar() != '\n');
+        if (input_valido != 1 || tempo_aggiuntivo < 0) {
+            printf("Input non valido. Riprova.\n");
+            input_valido = 0; // forza a ripetere
     }
+} while (input_valido == 0);
+
     att->tempo_effettivo += tempo_aggiuntivo;
     strcpy(att->data_ultima_modifica, data_oggi);
     return;

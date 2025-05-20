@@ -5,14 +5,16 @@
 
 int main() {
     char data_oggi[11];
-    printf("Inserisci la data di oggi (gg/mm/aaaa):\n");
-    scanf("%s", data_oggi);
-    while (!data_valida(data_oggi)) {
-        printf("Data non valida, riprova:\n");
-        scanf("%s", data_oggi);
+    int input_valido;
+    do {
+        printf("Inserisci la data di oggi (gg/mm/aaaa):\n");
+        input_valido = scanf("%10s", data_oggi);
+        while (getchar() != '\n');  //Svuota il buffer dopo scanf
+        if (input_valido != 1 || !data_valida(data_oggi)) {
+        printf("Data non valida. Riprova.\n");
     }
 
-    while (getchar() != '\n');  //Svuota il buffer dopo scanf
+} while (input_valido != 1 || !data_valida(data_oggi));
 
     lista_attivita lst = crea_lista();
     int scelta;
@@ -29,26 +31,16 @@ int main() {
     printf("0. Esci\n");
     printf("Digita un numero da 0 a 7 per scegliere un'opzione: ");
 
-    int input_valido = scanf("%d", &scelta);
-    if (input_valido != 1) {
-        printf("Input non valido. Riprova.\n");
-        while (getchar() != '\n'); // svuota buffer
-        continue;
+   int input_valido;
+   do {
+       printf("Digita un numero da 0 a 7 per scegliere un'opzione: ");
+       input_valido = scanf("%d", &scelta);
+       while (getchar() != '\n');
+       if (input_valido != 1 || scelta < 0 || scelta > 7) {
+       printf("Input non valido. Riprova.\n");
     }
+} while (input_valido != 1 || scelta < 0 || scelta > 7);
 
-    while (scelta < 0 || scelta > 7) {
-        printf("Opzione non esistente, riprova:\n");
-        input_valido = scanf("%d", &scelta);
-        if (input_valido != 1) {
-            printf("Input non valido, ritorno al menù.\n");
-            while (getchar() != '\n');
-            scelta = -1; // forza uscita dal ciclo per ristampare il menù
-            break;
-        }
-        while (getchar() != '\n');
-    }
-
-    while (getchar() != '\n');
 
         switch(scelta) {
 
@@ -136,29 +128,18 @@ int main() {
                     printf("1. Visualizza un'attività di studio\n");
                     printf("2. Visualizza tutte le attività di studio\n");
                     printf("0. Esci\n");
+                    printf("Scelta: ");
+                    
+                    input_valido = scanf("%d", &scelta_3);
+                    while (getchar() != '\n');  // pulizia dopo scanf
  
-                    int input_valido = scanf("%d", &scelta_3);
-                    if (input_valido != 1) {
-                    printf("Input non valido. Riprova.\n");
-                    while (getchar() != '\n');  // svuota tutto
-                    continue;
+                    if (input_valido != 1 || scelta_3 < 0 || scelta_3 > 2) {
+                        printf("Input non valido. Riprova.\n");
+                        continue;
                     }
 
-                    while (scelta_3 < 0 || scelta_3 > 2) {
-                        printf("Opzione non esistente. Riprova:\n");
-                        input_valido = scanf("%d", &scelta_3);
-                        if (input_valido != 1) {
-                            printf("Input non valido. Ritorno al sottomenu.\n");
-                            while (getchar() != '\n');
-                            scelta_3 = -1;  // forza il ciclo a ripetersi
-                           break;
-                        }
-                        while (getchar() != '\n');
-                    
-                    } while (getchar() != '\n');  // pulizia finale
-
                 switch (scelta_3) {
-            case 1: {
+                case 1: {
                 char nome [100];
                 printf("inserisci il nome dell'attività da visualizzare\n");
                 fgets(nome, 100, stdin);
@@ -171,6 +152,7 @@ int main() {
                 stampa_attivita(att);
                 stampa_progresso(att);
                 stampa_stato_completamento(att);
+                stampa_priorita(att);
                 break;
             }
 
@@ -253,6 +235,7 @@ int main() {
         }
     } while (scelta != 0);
         
-    
+    distruggi_lista(lst); //dealloca la memoria
+
     return 0;
 }
