@@ -267,7 +267,8 @@ return;
 /*
 
 • Funzione: stampa_priorita
-- la funzione stampa tutti i membri 
+
+- la funzione stampa "priorità alta", "priorità media" oppure "priorità bassa" a seconda del valore del membro priorita di att
 
 * parametri:
 att
@@ -276,7 +277,7 @@ att
 
 * postcondizioni: nessuna
 
-* side effect: i membri dell’attività passata come argomento vengono stampati
+* side effect: viene stampata una stringa che indica la priorità dell’attività passata come argomento, a seconda del valore del membro “priorita” di essa.
 
 */
 
@@ -297,6 +298,21 @@ void stampa_priorita(attivita att) {
     }
 }
 
+/*
+
+• Funzione: modifica_completata
+
+* parametri:
+att
+
+* precondizioni: deve essere inserita un’attività esistente
+
+* postcondizioni: nessuna
+
+* side effect: : il membro “completata” dell’attività passata come argomento, viene modificato (se è 0 diventa 1, se è 1 diventa 0)
+
+*/
+
 void modifica_completata(attivita att) {
     if(att->completata == 0)
         att->completata = 1;
@@ -304,6 +320,25 @@ void modifica_completata(attivita att) {
         att->completata = 0;
     return;
 }
+
+/*
+
+• Funzione: modifica_tempo_effettivo
+
+- la funzione aggiorna il valore di tempo_effettivo, sommando le ore inserite dall'utente con le ore già presenti, ed aggiorna data_ultima_modifica
+alla data di oggi
+
+* parametri:
+att
+
+* precondizioni: deve essere inserita un’attività esistente
+
+* postcondizioni: nessuna
+
+* side effect: il tempo effettivo dell’attività passata come argomento viene modificato dall’utente (che inserirà la quantità di ore di studio effettuate, 
+che si andranno a sommare con quelle già presenti). Inoltre, il membro data_ultima_modifica viene aggiornato con il valore di data_oggi
+
+*/
 
 void modifica_tempo_effettivo(attivita att, char* data_oggi) {
     if(att == NULL) {
@@ -326,6 +361,23 @@ void modifica_tempo_effettivo(attivita att, char* data_oggi) {
     strcpy(att->data_ultima_modifica, data_oggi);
     return;
 }
+
+/*
+
+•confronta_date(data1, data2) -> -1 || 0 || 1
+
+-la funzione confronta due date, e restitusice uno degli interi indicati a seconda del risultato del confronto
+
+*parametri: att
+
+*precondizioni: devono essere inserite due date valide
+
+*postcondizioni: la funzione restituisce:
+-1 se data1 < data2
+0 se data1 = data2
+1 se data1 > data2
+
+*/
 
 int confronta_date(char* data1, char* data2) {
     int giorno1, mese1, anno1, giorno2, mese2, anno2;
@@ -352,6 +404,22 @@ int confronta_date(char* data1, char* data2) {
     return 0;
 }
 
+/*
+
+• accedi_nome(att) -> att->nome
+
+* parametri:
+att
+
+* precondizioni: deve essere inserita un’attività esistente
+
+* postcondizioni: la funzione restituisce il membro nome dell’attività passata come argomento,
+  oppure se l’attività è vuota (NULL), stampa un messaggio di errore, e restituisce la stringa “ERRORE”
+
+* note: questa funzione è importante per rispettare l’information hiding
+
+*/
+
 char* accedi_nome(attivita att) {
     if (att == NULL){
         printf("Errore, l'attività è vuota\n");
@@ -359,6 +427,23 @@ char* accedi_nome(attivita att) {
     }
     return att->nome;
 }
+
+/*
+
+•	accedi_priorita(att) -> att->priorita
+
+* parametri:
+att
+
+* precondizioni: deve essere inserita un’attività esistente
+
+* postcondizioni: la funzione restituisce il membro priorita dell’attività passata come argomento, 
+oppure se l’attività è vuota (NULL), stampa un messaggio di errore, e restituisce il valore “ – 1”
+
+* note: questa funzione è importante per rispettare l’information hiding.
+
+
+*/
 
 int accedi_priorita(attivita att) {
     if (att == NULL){
@@ -368,6 +453,22 @@ int accedi_priorita(attivita att) {
     return att->priorita;
 }
 
+/*
+
+• accedi_completata(att) -> att->completata
+
+* parametri:
+att
+
+* precondizioni: deve essere inserita un’attività esistente
+
+* postcondizioni la funzione restituisce il membro completata dell’attività passata come argomento, 
+oppure se l’attività è vuota (NULL), stampa un messaggio di errore, e restituisce il valore “ – 1 “.
+
+* note: questa funzione è importante per rispettare l’information hiding.
+
+*/
+
 int accedi_completata(attivita att) {
     if (att == NULL) {
         printf("Errore, l'attività è vuota\n");
@@ -375,6 +476,22 @@ int accedi_completata(attivita att) {
     }
     return att->completata;
 }
+
+/*
+
+• accedi_data_scadenza(att) -> att->data_scadenza
+
+* parametri:
+att
+
+* precondizioni: deve essere inserita un’attività esistente
+
+* postcondizioni: la funzione restituisce il membro data_scadenza dell’attività passata come argomento, oppure se l’attività è vuota (NULL), 
+stampa un messaggio di errore, e restituisce la stringa “ERRORE”
+
+note: questa funzione è importante per rispettare l’information hiding
+
+*/
 
 char* accedi_data_scadenza(attivita att) {
     if (att == NULL) {
@@ -384,6 +501,22 @@ char* accedi_data_scadenza(attivita att) {
     return att->data_scadenza;
 }
 
+/*
+
+• accedi_data_ultima_modifica(att) -> att->data_ultima_modifica
+
+* parametri:
+att
+
+* precondizioni: deve essere inserita un’attività esistente
+
+* postcondizioni: la funzione restituisce il membro data_ultima_modifica dell’attività passata come argomento, oppure se l’attività è vuota (NULL),
+stampa un messaggio di errore, e restituisce la stringa “ERRORE”
+
+* note: questa funzione è importante per rispettare l’information hiding
+
+*/
+
 char* accedi_data_ultima_modifica(attivita att) {
     if (att == NULL) {
         printf("Errore, l'attività è vuota\n");
@@ -391,6 +524,25 @@ char* accedi_data_ultima_modifica(attivita att) {
     }
     return att->data_ultima_modifica;
 }
+
+/*
+
+•	sottrai_7_giorni(data_oggi, data_risultato) -> void
+
+- la funzione, data una stringa contenente una data nel formato gg/mm/aaaa, ed una stringa vuota, calcola il valore della data 7 giorni precedente
+a data_oggi, e salva il risultato nell'area di memoria puntata da data_risultato
+
+* parametri:
+data_oggi
+data_risultato
+
+* precondizioni: devono essere inserite due date valide
+
+* postcondizioni: nessuna
+
+* side effect: la stringa puntata da data_risultato conterrà la data 7 giorni precedente a data_oggi.
+
+*/
 
 void sottrai_7_giorni(char* data_oggi, char* data_risultato) {
     int giorno, mese, anno;
