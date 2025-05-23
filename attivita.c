@@ -367,9 +367,11 @@ att
 
 * postcondizioni: nessuna
 
-* side effect: il tempo effettivo dell’attività passata come argomento viene modificato dall’utente (che inserirà la quantità di ore di studio effettuate,
-che si andranno a sommare con quelle già presenti). Inoltre, il membro data_ultima_modifica viene aggiornato con il valore di data_oggi
-
+* side effect: 
+1) il tempo effettivo dell’attività passata come argomento viene modificato dall’utente (che inserirà la quantità di ore di studio effettuate,
+che si andranno a sommare con quelle già presenti)
+2) Il membro data_ultima_modifica viene aggiornato con il valore di data_oggi
+3) Il membro completata viene aggiornato (diventa 1) se il tempo effettivo eguaglia o supera il tempo stimato
 */
 
 void modifica_tempo_effettivo(attivita att, char *data_oggi)
@@ -396,6 +398,15 @@ void modifica_tempo_effettivo(attivita att, char *data_oggi)
 
     att->tempo_effettivo += tempo_aggiuntivo;     // modifica il valore di tempo_effettivo
     strcpy(att->data_ultima_modifica, data_oggi); // modifica la data dell'ultima modifica apportata alle ore di studio effettuate
+    
+    if (att->tempo_effettivo >= att->tempo_stimato)
+    {
+        if (att->completata == 0) // evita di stampare se già completata
+        {
+            att->completata = 1;  // l'attività è ora completata 
+            printf("Complimenti! Hai completato questa attività.\n");
+        }
+    }
     return;
 }
 
