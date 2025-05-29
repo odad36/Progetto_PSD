@@ -61,7 +61,7 @@ lst, nome
 * precondizioni: deve essere inserita una lista esistente ed il nome di un'attività
 
 * postcondizioni: viene restituita una lista con l’eliminazione della prima attività trovata con il nome passato alla funzione, oppure, 
-se il nome inserito non corrisponde ad alcuna attività, restituisce NULL, e stampa un messaggio di errore.
+se il nome inserito non corrisponde ad alcuna attività, restituisce la lista invariata, e stampa un messaggio di errore.
 
 */
 
