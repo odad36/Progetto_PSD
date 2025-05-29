@@ -1,0 +1,14 @@
+Attività di studio aggiunta con successo!
+Sono presenti 1 attività:
+ecco le specifiche della tua attività
+nome:Studio Analisi;
+descrizione:Ripasso derivate;
+corso di appartenenza:Analisi;
+data di scadenza:30/05/2025;
+data ultima modifica:28/05/2025;
+tempo stimato:10;
+tempo effettivo:0;
+il progresso dell'attività è pari al 0.00 percento
+l'attività non è stata ancora completata
+priorità: alta
+----------------------------------

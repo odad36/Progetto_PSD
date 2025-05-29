@@ -1,0 +1,20 @@
+Attività di studio aggiunta con successo!
+Attività di studio aggiunta con successo!
+Attività di studio aggiunta con successo!
+Quante ore hai studiato? Inserisci un numero intero positivo:
+Quante ore hai studiato? Inserisci un numero intero positivo:
+Complimenti! Hai completato questa attività.
+------ Ecco il report dell'ultima settimana ------
+Periodo di riferimento: 21/05/2025 - 28/05/2025
+
+-- ATTIVITÀ SCADUTE NEGLI ULTIMI 7 GIORNI --
+- Studio Derivate (scadenza: 21/05/2025)
+
+-- ATTIVITÀ MODIFICATE NEGLI ULTIMI 7 GIORNI --
+- Studio Limiti (modificata il: 28/05/2025) - Progresso: 100.00%
+- Studio Integrali (modificata il: 28/05/2025) - Progresso: 50.00%
+- Studio Derivate (modificata il: 28/05/2025) - Progresso: 0.00%
+
+-- ATTIVITÀ COMPLETATE NEGLI ULTIMI 7 GIORNI --
+- Studio Limiti (completata il: 28/05/2025)
+------ FINE REPORT ------

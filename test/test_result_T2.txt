@@ -1,0 +1,15 @@
+Attività di studio aggiunta con successo!
+Quante ore hai studiato? Inserisci un numero intero positivo:
+Sono presenti 1 attività:
+ecco le specifiche della tua attività
+nome:Studio Analisi;
+descrizione:Ripasso derivate;
+corso di appartenenza:Analisi;
+data di scadenza:30/05/2025;
+data ultima modifica:28/05/2025;
+tempo stimato:10;
+tempo effettivo:5;
+il progresso dell'attività è pari al 50.00 percento
+l'attività non è stata ancora completata
+priorità: alta
+----------------------------------
