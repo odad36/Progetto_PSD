@@ -44,7 +44,6 @@ int main(int argc, char* argv[]) {
         printf("6. Segna un'attività come completata\n");
         printf("7. Genera un report settimanale\n");
         printf("0. Esci\n");
-        printf("Digita un numero da 0 a 7 per scegliere un'opzione: ");
     }
    int input_valido;
    //opzione scelta dall'utente
@@ -52,7 +51,7 @@ int main(int argc, char* argv[]) {
         if (!test_mode) {
             printf("Digita un numero da 0 a 7 per scegliere un'opzione: ");
         }
-        input_valido = scanf("%d", &scelta);
+        input_valido = scanf("%1d", &scelta);
         while (getchar() != '\n');
         if (input_valido != 1 || scelta < 0 || scelta > 7) {
         if (!test_mode) {
@@ -72,9 +71,15 @@ int main(int argc, char* argv[]) {
 
                 //nome
                 if (!test_mode) {
-                    printf("Inserisci il nome (max 100 caratteri):\n");
+                    printf("Inserisci il nome (max 99 caratteri):\n");
                 }
                 fgets(nome, 100, stdin);  //utilizzo di fgets (e non scanf) per evitare problemi con gli spazi
+                if (strchr(nome, '\n') == NULL) {  //se manca il '\n', l'utente ha inserito troppi caratteri
+                    int ch;
+                    while ((ch = getchar()) != '\n' && ch != EOF);   //ch raccoglie tutti i caratteri da eliminare, e svuota buffer
+                        printf("Nome troppo lungo! Cancellazione dell'attività, ritorno al menu principale.\n");
+                        continue;                                       //torna al case 1
+                    }
                 nome[strcspn(nome, "\n")] = '\0';   //rimuove il carattere '\n' , e lo sostituisce con '\0' (in modo tale da avere una vera e propria stringa)
                 while (!stringa_valida(nome) || cerca_attivita(lst, nome) != NULL) {
                     printf("Nome non valido o già utilizzato, riprova\n");
@@ -84,9 +89,15 @@ int main(int argc, char* argv[]) {
 
                 //descrizione
                 if (!test_mode) {
-                    printf("Inserisci la descrizione:\n");
+                    printf("Inserisci la descrizione (max 99 caratteri):\n");
                 }
                 fgets(descrizione, 100, stdin);
+                if (strchr(descrizione, '\n') == NULL) {  //se manca il '\n', l'utente ha inserito troppi caratteri
+                    int ch;
+                    while ((ch = getchar()) != '\n' && ch != EOF);   //ch raccoglie tutti i caratteri da eliminare, e svuota buffer
+                        printf("Descrizione troppo lunga! Cancellazione dell'attività, ritorno al menu principale.\n");
+                        continue;                                       //torna al case 1
+                    }
                 descrizione[strcspn(descrizione, "\n")] = '\0';
                 while (!stringa_valida(descrizione)) {
                     printf("Descrizione non valida, riprova:\n");
@@ -96,9 +107,15 @@ int main(int argc, char* argv[]) {
 
                 //corso di appartenenza
                 if (!test_mode) { 
-                    printf("Inserisci il corso di appartenenza:\n");
+                    printf("Inserisci il corso di appartenenza (max 99 caratteri):\n");
                 }
                 fgets(corso_appartenenza, 100, stdin);
+                if (strchr(corso_appartenenza, '\n') == NULL) {  //se manca il '\n', l'utente ha inserito troppi caratteri
+                    int ch;
+                    while ((ch = getchar()) != '\n' && ch != EOF);   //ch raccoglie tutti i caratteri da eliminare, e svuota buffer
+                        printf("Nome del corso troppo lungo! Cancellazione dell'attività, ritorno al menu principale.\n");
+                        continue;                                       //torna al case 1
+                    }
                 corso_appartenenza[strcspn(corso_appartenenza, "\n")] = '\0';
                 while (!stringa_valida(corso_appartenenza)) {
                     printf("Corso non valido, riprova:\n");
@@ -110,18 +127,19 @@ int main(int argc, char* argv[]) {
                 if (!test_mode) {
                     printf("Inserisci la data di scadenza (gg/mm/aaaa):\n");
                 }
-                scanf("%s", data_scadenza);
+                scanf("%10s", data_scadenza);
+                while (getchar() != '\n');
                 while (!data_valida(data_scadenza)) {
                     printf("Data non valida, riprova:\n");
-                    scanf("%s", data_scadenza);
+                    scanf("%10s", data_scadenza);
+                    while (getchar() != '\n');  //necessarie più pulizie di buffer per prevenire stampe multiple
                 }
-                while (getchar() != '\n');
-
+                
                 //priorità
                 if (!test_mode) {
                     printf("Inserisci la priorità (1 = alta, 2 = media, 3 = bassa):\n");
                 }
-                while (scanf("%d", &priorita) != 1 || (priorita != 1 && priorita != 2 && priorita != 3)) {
+                while (scanf("%1d", &priorita) != 1 || (priorita != 1 && priorita != 2 && priorita != 3)) {
                     printf("Valore non valido, inserisci 1, 2 o 3:\n");
                     while (getchar() != '\n');
                 }
@@ -173,7 +191,7 @@ int main(int argc, char* argv[]) {
                         printf("0. Esci\n");
                         printf("Scelta: ");
                     }
-                    input_valido = scanf("%d", &scelta_3);
+                    input_valido = scanf("%1d", &scelta_3);
                     while (getchar() != '\n');
  
                     if (input_valido != 1 || scelta_3 < 0 || scelta_3 > 2) {
