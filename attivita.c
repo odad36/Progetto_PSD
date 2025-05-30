@@ -372,6 +372,7 @@ att
 che si andranno a sommare con quelle già presenti)
 2) Il membro data_ultima_modifica viene aggiornato con il valore di data_oggi
 3) Il membro completata viene aggiornato (diventa 1) se il tempo effettivo eguaglia o supera il tempo stimato
+
 */
 
 void modifica_tempo_effettivo(attivita att, char *data_oggi)

@@ -1,7 +1,21 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// Funzione che confronta due file riga per riga
+/*
+
+• Funzione: confronta_file
+
+- la funzione confronta due file carattere per carattere
+
+* parametri:
+file1, file2
+
+* precondizioni: devono essere inseriti due file esistenti
+
+* postcondizioni: la funzione restituisce 0 se i file sono diversi, oppure 1 se i file sono perfettamente uguali
+
+*/
+
 int confronta_file(const char* file1, const char* file2) {
     //apro in lettura i file
     FILE *f1 = fopen(file1, "r");
